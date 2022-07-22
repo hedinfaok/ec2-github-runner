@@ -49,6 +49,8 @@ async function startEc2Instance(label, githubRegistrationToken) {
     config.ec2InstanceLaunchParams
   );
 
+  core.info(`Starting EC2 Instance with ${JSON.stringify(params)}`);
+
   try {
     const result = await ec2.runInstances(params).promise();
     const ec2InstanceId = result.Instances[0].InstanceId;

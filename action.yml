@@ -70,6 +70,7 @@ inputs:
       The JSON params passed into EC2.runInstance() in the Javascript SDK. This object is merged
       with inputs declared in the action. Keys defined in this object override action inputs.
       See https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/EC2.html
+      See https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html
     required: false
     default: '{}'
 outputs:
