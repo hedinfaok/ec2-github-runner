@@ -34,9 +34,9 @@ async function startEc2Instance(label, githubRegistrationToken) {
 
   const userData = buildUserDataScript(githubRegistrationToken, label);
 
-  core.info(`config.ec2InstanceLaunchParams ${config.ec2InstanceLaunchParams}`);
+  core.info(`config.ec2InstanceLaunchParams ${JSON.stringify(config.ec2InstanceLaunchParams)}`);
 
-  const params = merge.all(
+  const params = merge.all([
     {
       ImageId: config.input.ec2ImageId,
       InstanceType: config.input.ec2InstanceType,
@@ -48,8 +48,8 @@ async function startEc2Instance(label, githubRegistrationToken) {
       IamInstanceProfile: { Name: config.input.iamRoleName },
       TagSpecifications: config.tagSpecifications,
     },
-    config.ec2InstanceLaunchParams
-  );
+    config.ec2InstanceLaunchParams,
+  ]);
 
   core.info(`Starting EC2 Instance with ${JSON.stringify(params)}`);
 
