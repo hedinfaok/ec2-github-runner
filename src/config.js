@@ -17,7 +17,7 @@ class Config {
     };
 
     this.ec2InstanceLaunchParams = JSON.parse(core.getInput('ec2-instance-launch-params'));
-    this.securityGroupIds = JSON.stringify(this.input.securityGroupId);
+    this.securityGroupIds = JSON.parse(this.input.securityGroupId);
 
     const tags = JSON.parse(core.getInput('aws-resource-tags'));
     this.tagSpecifications = null;
