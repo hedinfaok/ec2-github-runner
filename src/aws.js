@@ -34,8 +34,6 @@ async function startEc2Instance(label, githubRegistrationToken) {
 
   const userData = buildUserDataScript(githubRegistrationToken, label);
 
-  core.info(`config.ec2InstanceLaunchParams ${JSON.stringify(config.ec2InstanceLaunchParams)}`);
-
   const params = merge.all([
     {
       ImageId: config.input.ec2ImageId,
@@ -44,7 +42,7 @@ async function startEc2Instance(label, githubRegistrationToken) {
       MaxCount: 1,
       UserData: Buffer.from(userData.join('\n')).toString('base64'),
       SubnetId: config.input.subnetId,
-      SecurityGroupIds: [config.input.securityGroupId],
+      SecurityGroupIds: [config.securityGroupIds],
       IamInstanceProfile: { Name: config.input.iamRoleName },
       TagSpecifications: config.tagSpecifications,
     },
