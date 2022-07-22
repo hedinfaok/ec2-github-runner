@@ -16,7 +16,7 @@ class Config {
       runnerHomeDir: core.getInput('runner-home-dir'),
     };
 
-    const ec2InstanceLaunchParams = JSON.parse(core.getInput('ec2-instance-launch-params'));
+    this.ec2InstanceLaunchParams = JSON.parse(core.getInput('ec2-instance-launch-params'));
 
     const tags = JSON.parse(core.getInput('aws-resource-tags'));
     this.tagSpecifications = null;
