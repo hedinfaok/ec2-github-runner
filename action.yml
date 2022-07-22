@@ -65,6 +65,13 @@ inputs:
     description: >-
       Directory that contains actions-runner software and scripts. E.g. /home/runner/actions-runner.
     required: false
+  ec2-instance-launch-params:
+    description: >-
+      The JSON params passed into EC2.runInstance() in the Javascript SDK. This object is merged
+      with inputs declared in the action. Keys defined in this object override action inputs.
+      See https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/EC2.html
+    required: false
+    default: '{}'
 outputs:
   label:
     description: >-

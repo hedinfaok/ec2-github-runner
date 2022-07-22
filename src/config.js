@@ -16,10 +16,15 @@ class Config {
       runnerHomeDir: core.getInput('runner-home-dir'),
     };
 
+    const ec2InstanceLaunchParams = JSON.parse(core.getInput('ec2-instance-launch-params'));
+
     const tags = JSON.parse(core.getInput('aws-resource-tags'));
     this.tagSpecifications = null;
     if (tags.length > 0) {
-      this.tagSpecifications = [{ResourceType: 'instance', Tags: tags}, {ResourceType: 'volume', Tags: tags}];
+      this.tagSpecifications = [
+        { ResourceType: 'instance', Tags: tags },
+        { ResourceType: 'volume', Tags: tags },
+      ];
     }
 
     // the values of github.context.repo.owner and github.context.repo.repo are taken from

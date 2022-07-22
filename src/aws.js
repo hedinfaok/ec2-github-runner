@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
 const core = require('@actions/core');
 const config = require('./config');
+const deepmerge = require('deepmerge');
 
 // User data scripts are run as the root user
 function buildUserDataScript(githubRegistrationToken, label) {
@@ -33,17 +34,20 @@ async function startEc2Instance(label, githubRegistrationToken) {
 
   const userData = buildUserDataScript(githubRegistrationToken, label);
 
-  const params = {
-    ImageId: config.input.ec2ImageId,
-    InstanceType: config.input.ec2InstanceType,
-    MinCount: 1,
-    MaxCount: 1,
-    UserData: Buffer.from(userData.join('\n')).toString('base64'),
-    SubnetId: config.input.subnetId,
-    SecurityGroupIds: [config.input.securityGroupId],
-    IamInstanceProfile: { Name: config.input.iamRoleName },
-    TagSpecifications: config.tagSpecifications,
-  };
+  const params = deepmerge.merge(
+    {
+      ImageId: config.input.ec2ImageId,
+      InstanceType: config.input.ec2InstanceType,
+      MinCount: 1,
+      MaxCount: 1,
+      UserData: Buffer.from(userData.join('\n')).toString('base64'),
+      SubnetId: config.input.subnetId,
+      SecurityGroupIds: [config.input.securityGroupId],
+      IamInstanceProfile: { Name: config.input.iamRoleName },
+      TagSpecifications: config.tagSpecifications,
+    },
+    config.ec2InstanceLaunchParams
+  );
 
   try {
     const result = await ec2.runInstances(params).promise();
