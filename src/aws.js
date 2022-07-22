@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const core = require('@actions/core');
 const config = require('./config');
-const deepmerge = require('deepmerge');
+const merge = require('deepmerge');
 
 // User data scripts are run as the root user
 function buildUserDataScript(githubRegistrationToken, label) {
@@ -34,7 +34,7 @@ async function startEc2Instance(label, githubRegistrationToken) {
 
   const userData = buildUserDataScript(githubRegistrationToken, label);
 
-  const params = deepmerge.merge(
+  const params = merge(
     {
       ImageId: config.input.ec2ImageId,
       InstanceType: config.input.ec2InstanceType,
