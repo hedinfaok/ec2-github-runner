@@ -34,7 +34,9 @@ async function startEc2Instance(label, githubRegistrationToken) {
 
   const userData = buildUserDataScript(githubRegistrationToken, label);
 
-  const params = merge(
+  core.info(`config.ec2InstanceLaunchParams ${config.ec2InstanceLaunchParams}`);
+
+  const params = merge.all(
     {
       ImageId: config.input.ec2ImageId,
       InstanceType: config.input.ec2InstanceType,
