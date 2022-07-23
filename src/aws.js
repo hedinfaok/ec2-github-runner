@@ -54,6 +54,7 @@ async function startEc2Instance(label, githubRegistrationToken) {
       TagSpecifications: config.tagSpecifications,
     },
     config.ec2InstanceLaunchParams,
+    { arrayMerge: combineMerge },
   ]);
 
   core.info(`Starting EC2 Instance with ${JSON.stringify(params)}`);
