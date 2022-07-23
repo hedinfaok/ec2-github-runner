@@ -34,28 +34,30 @@ async function startEc2Instance(label, githubRegistrationToken) {
 
   const userData = buildUserDataScript(githubRegistrationToken, label);
 
-  const params = merge.all([
-    {
-      ImageId: config.input.ec2ImageId,
-      InstanceType: config.input.ec2InstanceType,
-      NetworkInterfaces: [
-        {
-          // AssociatePublicIpAddress: false,
-          DeviceIndex: 0,
-          // DeleteOnTermination: true,
-          Groups: config.securityGroupIds,
-          SubnetId: config.input.subnetId,
-        },
-      ],
-      MinCount: 1,
-      MaxCount: 1,
-      UserData: Buffer.from(userData.join('\n')).toString('base64'),
-      IamInstanceProfile: { Name: config.input.iamRoleName },
-      TagSpecifications: config.tagSpecifications,
-    },
-    config.ec2InstanceLaunchParams,
-    { arrayMerge: combineMerge },
-  ]);
+  const params = merge.all(
+    [
+      {
+        ImageId: config.input.ec2ImageId,
+        InstanceType: config.input.ec2InstanceType,
+        NetworkInterfaces: [
+          {
+            // AssociatePublicIpAddress: false,
+            DeviceIndex: 0,
+            // DeleteOnTermination: true,
+            Groups: config.securityGroupIds,
+            SubnetId: config.input.subnetId,
+          },
+        ],
+        MinCount: 1,
+        MaxCount: 1,
+        UserData: Buffer.from(userData.join('\n')).toString('base64'),
+        IamInstanceProfile: { Name: config.input.iamRoleName },
+        TagSpecifications: config.tagSpecifications,
+      },
+      config.ec2InstanceLaunchParams,
+    ],
+    { arrayMerge: combineMerge }
+  );
 
   core.info(`Starting EC2 Instance with ${JSON.stringify(params)}`);
 
