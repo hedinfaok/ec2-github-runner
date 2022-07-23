@@ -38,10 +38,17 @@ async function startEc2Instance(label, githubRegistrationToken) {
     {
       ImageId: config.input.ec2ImageId,
       InstanceType: config.input.ec2InstanceType,
+      NetworkInterfaces: [
+        {
+          AssociatePublicIpAddress: true,
+          DeviceIndex: 0,
+          DeleteOnTermination: true,
+          SubnetId: config.input.subnetId,
+        },
+      ],
       MinCount: 1,
       MaxCount: 1,
       UserData: Buffer.from(userData.join('\n')).toString('base64'),
-      SubnetId: config.input.subnetId,
       SecurityGroupIds: config.securityGroupIds,
       IamInstanceProfile: { Name: config.input.iamRoleName },
       TagSpecifications: config.tagSpecifications,
